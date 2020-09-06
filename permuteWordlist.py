@@ -58,15 +58,17 @@ def permute(dictWord):
         currentLetter = dictWord[0]
         restOfWord = dictWord[1:]
 
-        if currentLetter in leetDict:
-            substitutions = leetDict[currentLetter] + [currentLetter]
-        else:
-            substitutions = [currentLetter]
-
         if len(restOfWord) > 0:
-          perms = [s + p for s in substitutions for p in permute(restOfWord)]
+            if currentLetter in leetDict:
+                perms = [sub + p for p in permute(restOfWord)
+                         for sub in leetDict[currentLetter]]
+            else:
+                perms = [currentLetter + p for p in permute(restOfWord)]
         else:
-          perms = substitutions
+            if currentLetter in leetDict:
+                perms = leetDict[currentLetter]
+            else:
+                perms = [currentLetter]
 
         return perms
 
